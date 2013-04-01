@@ -1,0 +1,90 @@
+        =====================================================
+        |     _ __ ___  __| |_      _____   ___   __| |     |
+        |    | '__/ _ \/ _` \ \ /\ / / _ \ / _ \ / _` |     |
+        |    | | |  __/ (_| |\ V  V / (_) | (_) | (_| |     |
+        |    |_|  \___|\__,_| \_/\_/ \___/ \___/ \__,_|     |
+        |                  William Farmer                   |
+        =====================================================
+
+Redwood is a tool for users to check, document, and delete files in directory
+trees based on age. Redwood will log every step that the process completes as
+well as every file that is older (or newer) than a user specified age.
+
+Redwood will generate two files as it's run, a logfile as well as a report. The
+logfile is appended each time redwood is run unless the -c argument is present.
+The report is generated at the end of each program iteration. The purpose of the
+report is to identify which files were flagged the last time redwood was run
+withough having to parse the logfile. Be careful though, unless the report is
+saved to a different location, redwood will overwrite it the next time it's run.
+
+USAGE
+=====
+For help at the command line:
+
+Usage: ./redwood.py <options>
+
+Options:
+  -h, --help            show this help message and exit
+  -c, --clean           Clean logfile first?
+  -d DIRECTORY, --directory=DIRECTORY
+                        Target Directory(s). If you wish
+                        to include multiple directories, seperate
+                        them using multiple -d arguments
+  -e, --empty           Flag empty directories as well?
+  --delete              Delete flagged files?
+  --force               Whether or not to ask for confirmation when
+                        deleting files. If this flag is included,
+                        it will NOT ask for confirmation.
+  -l LOGFILE, --logfile=LOGFILE
+                        Directory for the logfile
+  -o OPTIONFILE, --optionfile=OPTIONFILE
+                        Which config file to use
+  -r REPORT, --report=REPORT
+                        Directory for the report
+  --reverse             Whether or not to pick files that are newer
+                        or older than the specified time. If this
+                        option is included, any files that are newer
+                        than the time set in .redwoodrc will be flagged
+                        or deleted, depending on other options.
+  -t TRASH, --trash=TRASH
+                        Location for trash. If this flag is present
+                        redwood will move old files to this directory
+                        instead of deleting them.
+
+
+CONFIGURATION
+=============
+The file .redwoodrc provides two main functions in configuring redwood's
+behavior. The first function is that of setting the age of files. This is done
+through the first line of the file which should look something like this:
+
+    23d
+
+Any line after this will act as a filter for redwood, i.e. any directories
+listed here will be ignored. The way this works is through the program
+determining if the current working directory for the program starts with the
+line from .redwoodrc These lines should look like this:
+
+    /usr/share/
+    /bin
+    /var
+
+Keep in mind that absolute paths need to be used, relative paths will NOT work.
+
+The config file will also ignore any lines starting with #, so feel free to
+comment
+
+
+TESTING
+=======
+A test harness is provided with redwood to ensure program functionality.
+To run,
+    $ ./test_redwood.py
+
+To see a demonstration of how it works, enter:
+
+    $ ./dir_creation
+    $ ./redwood.py -d /<FULL PATH>/redwood/bin/level0/ -e --delete --force -t /<FULL PATH>/redwood/bin/trash/
+
+This will generate files, and then scan/delete the old ones. In this example,
+the files will actually end up in the trash directory under bin/

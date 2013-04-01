@@ -1,0 +1,3 @@
+For installation of redwood run the install.sh script included under redwood/.
+This will install it locally in the user home directory so that it can be run
+from the terminal without the current working directory containing the script.

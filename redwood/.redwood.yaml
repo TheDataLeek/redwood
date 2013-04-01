@@ -1,0 +1,29 @@
+#####################################
+# Config File for Redwood           #
+#                                   #
+# This Config file is written using #
+# the YAML language, please use     #
+# appropiate syntax                 #
+#####################################
+
+clean: True    # Write a new logfile?
+empty: True    # Flag empty directories?
+delete: False  # Delete flagged files?
+force: False   # Force delete?
+logfile: ./log.txt  # File to write the log to
+trash:         # What directory to use as a trash file
+ignorefile: ./.redwood.ignore
+
+directory_list:
+    a:
+        - directory: /home/sherlock/Documents
+        - mindepth: 3
+        - maxdepth: 3
+        - age: 1w
+        - reverse: False
+    b:
+        - directory: /home/sherlock
+        - mindepth: 3
+        - maxdepth: 2
+        - age: 1d
+        - reverse: False
