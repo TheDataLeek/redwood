@@ -155,11 +155,15 @@ def dir_scan(special_directories, config):
                                  shell=True)
         file_list = files.communicate()[0].splitlines()
         for entry in file_list:
+            flag = 2
             if config['empty']:
                 try:
                     if os.listdir(entry) == []:
-                        logging.info('%s is empty' %(entry))
-                        old_dirs.append(entry)
+                        if config['and']:
+                            flag -= 1
+                        else:
+                            logging.info('%s is empty' %(entry))
+                            old_dirs.append(entry)
                 except OSError:
                     pass
             age_tag = False
@@ -170,6 +174,11 @@ def dir_scan(special_directories, config):
             elif ignore_flag == False:  # If we ignore the file
                 logging.info('Ignoring %s' %(entry))
             if age_tag:  # If the file is too old
+                if config['and']:
+                    flag -= 1
+                else:
+                    old_dirs.append(entry)
+            if flag == 0:
                 old_dirs.append(entry)
     return old_dirs
 
@@ -224,6 +233,11 @@ def get_args():
     global opts
     global args
     parser = optparse.OptionParser(usage = './%prog <options>')
+    parser.add_option('-a', '--and', action='store_true',
+                        default=False,
+                        help='Flag only if both conditions are met?\
+                                Note, this only applies if the -e flag\
+                                is supplied as well.')
     parser.add_option('-c', '--clean', action='store_true',
                         default=False,
                         help='Clean logfile first?')
@@ -233,12 +247,12 @@ def get_args():
                         help='Target Directory(s). If you wish\
                                 to include multiple directories, seperate\
                                 them using multiple -d arguments')
-    parser.add_option('-e', '--empty', action='store_true',
-                        default=False,
-                        help='Flag empty directories as well?')
     parser.add_option('--delete', action='store_true',
                         default=False,
                         help='Delete flagged files?')
+    parser.add_option('-e', '--empty', action='store_true',
+                        default=False,
+                        help='Flag empty directories as well?')
     parser.add_option('--force', action='store_true',
                         default=False,
                         help='Whether or not to ask for confirmation when\
@@ -266,6 +280,8 @@ def get_args():
                         redwood will move old files to this directory\
                         instead of deleting them.')
     opts, args = parser.parse_args()
+    if opts.a is True and opts.e is False:
+        opts.a = False
     return opts
 
 

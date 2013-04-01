@@ -6,12 +6,13 @@
 # appropiate syntax                 #
 #####################################
 
-clean: True    # Write a new logfile?
-empty: True    # Flag empty directories?
-delete: False  # Delete flagged files?
-force: False   # Force delete?
+clean: True         # Write a new logfile?
+empty: True         # Flag empty directories?
+and: False          # Flag if both conditions are met
+delete: False       # Delete flagged files?
+force: False        # Force delete?
 logfile: ./log.txt  # File to write the log to
-trash:         # What directory to use as a trash file
+trash:              # What directory to use as a trash file
 ignorefile: ./.redwood.ignore
 
 directory_list:
