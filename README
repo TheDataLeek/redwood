@@ -25,6 +25,9 @@ Usage: ./redwood.py <options>
 
 Options:
   -h, --help            show this help message and exit
+  -a, --and             Flag only if both conditions are met?
+                        Note, this only applies if the -e flag
+                        is supplied as well.
   -c, --clean           Clean logfile first?
   -d DIRECTORY, --directory=DIRECTORY
                         Target Directory(s). If you wish
