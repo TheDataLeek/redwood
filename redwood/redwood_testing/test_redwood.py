@@ -4,10 +4,12 @@ import unittest
 import redwood as mod
 import os
 import shutil
+import yaml
 
 class RedwoodTester(unittest.TestCase):
 
     def setUp(self):
+        self.config = yaml.load('./.redwood.yaml')
         try:
             os.mkdir('./testdir')
             open('./testdir/testone', mode='w')
@@ -82,10 +84,6 @@ class RedwoodTester(unittest.TestCase):
         assert mod.file_scan('./testdir/testtwo', 2, True) == True
         assert mod.file_scan('./testdir/testdirtwo/one', 2, True) == False
         assert mod.file_scan('./testdir/testdirtwo/two', 2, True) == True
-
-
-    def test_dirscan(self):
-        print 1
 
 
     def tearDown(self):

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""
-
+'''
 =====================================================
 |     _ __ ___  __| |_      _____   ___   __| |     |
 |    | '__/ _ \/ _` \ \ /\ / / _ \ / _ \ / _` |     |
@@ -14,7 +13,7 @@ either too new or too old based on specifications. After it's flagged
 the files it will then either just stop there, or it will delete the
 flagged files depending on user specification.
 
-"""
+'''
 
 import sys
 import os
@@ -27,9 +26,9 @@ import subprocess
 
 
 def main():
-    """ Program main
-        Gets options, runs code, logs output
-    """
+    '''
+        Program main
+    '''
     opts = get_args()
 
     config_file = open('./.redwood.yaml', mode='r')
@@ -180,6 +179,7 @@ def dir_scan(special_directories, config):
                     old_dirs.append(entry)
             if flag == 0:
                 old_dirs.append(entry)
+    print old_dirs
     return old_dirs
 
 
@@ -233,7 +233,7 @@ def get_args():
     global opts
     global args
     parser = optparse.OptionParser(usage = './%prog <options>')
-    parser.add_option('-a', '--and', action='store_true',
+    parser.add_option('-a', '--andflag', action='store_true',
                         default=False,
                         help='Flag only if both conditions are met?\
                                 Note, this only applies if the -e flag\
@@ -280,8 +280,8 @@ def get_args():
                         redwood will move old files to this directory\
                         instead of deleting them.')
     opts, args = parser.parse_args()
-    if opts.a is True and opts.e is False:
-        opts.a = False
+    if opts.andflag is True and opts.empty is False:
+        opts.andflag = False
     return opts
 
 
